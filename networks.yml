@@ -130,3 +130,11 @@
       fixed_ips:
       - ip_address: '{{ opnsense_2_mgmt_port_ip }}'
       no_security_groups: true
+
+  - name: Create a router
+    openstack.cloud.router:
+      ca_cert: '{{ ca_cert_path }}'
+      name: '{{ router_name }}'
+      network: '{{ provider_network_name }}'
+      interfaces:
+        - '{{ external_subnet_name }}'

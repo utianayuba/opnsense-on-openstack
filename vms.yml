@@ -1,0 +1,78 @@
+- hosts: localhost
+  vars_files: vars.yml
+  tasks:
+
+  - name: Create an external client VM
+    openstack.cloud.server:
+      ca_cert: '{{ ca_cert_path }}'
+      name: external
+      image: '{{ rocky_image_name }}'
+      key_name: '{{ keypair_name }}'
+      flavor: flavor-2-2-20
+      network: '{{ provider_network_name }}'
+      boot_from_volume: true
+      volume_size: 20
+      terminate_volume: true
+      security_groups:
+        - sg-icmp
+        - sg-ssh
+
+  - name: Create a jumphost-0 VM
+    openstack.cloud.server:
+      ca_cert: '{{ ca_cert_path }}'
+      name: 'jumphost-0'
+      image: '{{ rocky_image_name }}'
+      key_name: '{{ keypair_name }}'
+      flavor: flavor-2-2-20
+      nics:
+        - net-name: '{{ external_network_name }}'
+        - net-name: '{{ mgmt_network_name }}'
+      boot_from_volume: true
+      volume_size: 20
+      terminate_volume: true
+      security_groups:
+        - sg-icmp
+        - sg-ssh
+
+  - name: Create a jumphost-1 VM
+    openstack.cloud.server:
+      ca_cert: '{{ ca_cert_path }}'
+      name: 'jumphost-1'
+      image: '{{ rocky_image_name }}'
+      key_name: '{{ keypair_name }}'
+      flavor: flavor-2-2-20
+      network: '{{ mgmt_network_name }}'
+      boot_from_volume: true
+      volume_size: 20
+      terminate_volume: true
+      security_groups:
+        - sg-icmp
+        - sg-ssh
+      userdata: |
+        #!/bin/sh
+        ip route add default via 10.255.0.10
+      auto_ip: false
+
+  - name: Create an internal server VM
+    openstack.cloud.server:
+      ca_cert: '{{ ca_cert_path }}'
+      name: 'internal'
+      image: '{{ rocky_image_name }}'
+      key_name: '{{ keypair_name }}'
+      flavor: flavor-2-2-20
+      nics:
+        - net-name: '{{ internal_network_name }}'
+        - net-name: '{{ mgmt_network_name }}'
+      boot_from_volume: true
+      volume_size: 20
+      terminate_volume: true
+      security_groups:
+        - sg-icmp
+        - sg-ssh
+        - sg-http
+        - sg-https
+      userdata: |
+        #!/bin/sh
+        yum -y install nginx
+        systemctl enable nginx --now
+      auto_ip: false
