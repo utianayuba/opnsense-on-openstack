@@ -16,7 +16,7 @@
 
   - name: Download OPNsense image archive
     ansible.builtin.get_url:
-      url: 'http://mirror.ams1.nl.leaseweb.net/opnsense/releases/23.1/{{ opnsense_image_archive_file }}'
+      url: '{{ opnsense_image_url }}/{{ opnsense_image_archive_file }}'
       dest: '{{ images_dir }}/{{ opnsense_image_archive_file }}'
       checksum: 'sha256:{{ opnsense_image_archive_file_sha256 }}'
     when: opnsense_image_file_stat.stat.exists is false and opnsense_image_archive_file_stat.stat.exists is false
@@ -28,20 +28,20 @@
 
   - name: Upload OPNsense image file to OpenStack Glance
     openstack.cloud.image:
-      ca_cert: /etc/kolla/certificates/ca/root.crt
+      ca_cert: '{{ ca_cert_path }}'
       name: '{{ opnsense_image_name }}'
       filename: '{{ images_dir }}/{{ opnsense_image_file }}'
       disk_format: qcow2
 
   - name: Download Rocky image
     ansible.builtin.get_url:
-      url: 'https://rocky-linux-asia-southeast2.production.gcp.mirrors.ctrliq.cloud/pub/rocky/9.1/images/x86_64/{{ rocky_image_file }}'
+      url: '{{ rocky_image_url }}/{{ rocky_image_file }}'
       dest: '{{ images_dir }}/{{ rocky_image_file }}'
       checksum: 'sha256:{{ rocky_image_file_sha256 }}'
 
   - name: Upload Rocky image file to OpenStack Glance
     openstack.cloud.image:
-      ca_cert: /etc/kolla/certificates/ca/root.crt
+      ca_cert: '{{ ca_cert_path }}'
       name: '{{ rocky_image_name }}'
       filename: '{{ images_dir }}/{{ rocky_image_file }}'
       disk_format: qcow2

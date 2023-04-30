@@ -1,0 +1,132 @@
+- hosts: localhost
+  vars_files: vars.yml
+  tasks:
+
+  - name: Create external network
+    openstack.cloud.network:
+      ca_cert: '{{ ca_cert_path }}'
+      name: '{{ external_network_name }}'
+  
+  - name: Create external subnet
+    openstack.cloud.subnet:
+      ca_cert: '{{ ca_cert_path }}'
+      name: '{{ external_subnet_name }}'
+      network_name: '{{ external_network_name }}'
+      cidr: '{{ external_subnet_cidr }}'
+      dns_nameservers:
+       - '{{ dns_nameserver1 }}'
+       - '{{ dns_nameserver2 }}'
+
+  - name: Create sync network
+    openstack.cloud.network:
+      ca_cert: '{{ ca_cert_path }}'
+      name: '{{ sync_network_name }}'
+  
+  - name: Create sync subnet
+    openstack.cloud.subnet:
+      ca_cert: '{{ ca_cert_path }}'
+      name: '{{ sync_subnet_name }}'
+      network_name: '{{ sync_network_name }}'
+      cidr: '{{ sync_subnet_cidr }}'
+      no_gateway_ip: true
+
+  - name: Create internal network
+    openstack.cloud.network:
+      ca_cert: '{{ ca_cert_path }}'
+      name: '{{ internal_network_name }}'
+  
+  - name: Create internal subnet
+    openstack.cloud.subnet:
+      ca_cert: '{{ ca_cert_path }}'
+      name: '{{ internal_subnet_name }}'
+      network_name: '{{ internal_network_name }}'
+      cidr: '{{ internal_subnet_cidr }}'
+      dns_nameservers:
+       - '{{ dns_nameserver1 }}'
+       - '{{ dns_nameserver2 }}'
+      gateway_ip: '{{ internal_gateway_ip }}'
+
+  - name: Create management network
+    openstack.cloud.network:
+      ca_cert: '{{ ca_cert_path }}'
+      name: '{{ mgmt_network_name }}'
+  
+  - name: Create management subnet
+    openstack.cloud.subnet:
+      ca_cert: '{{ ca_cert_path }}'
+      name: '{{ mgmt_subnet_name }}'
+      network_name: '{{ mgmt_network_name }}'
+      cidr: '{{ mgmt_subnet_cidr }}'
+      no_gateway_ip: true
+  
+  - name: Create opnsense-1 external port
+    openstack.cloud.port:
+      ca_cert: '{{ ca_cert_path }}'
+      name: '{{ opnsense_1_external_port_name }}'
+      network: '{{ external_network_name }}'
+      fixed_ips:
+      - ip_address: '{{ opnsense_1_external_port_ip }}'
+      no_security_groups: true
+
+  - name: Create opnsense-2 external port
+    openstack.cloud.port:
+      ca_cert: '{{ ca_cert_path }}'
+      name: '{{ opnsense_2_external_port_name }}'
+      network: '{{ external_network_name }}'
+      fixed_ips:
+      - ip_address: '{{ opnsense_2_external_port_ip }}'
+      no_security_groups: true
+
+  - name: Create opnsense-1 sync port
+    openstack.cloud.port:
+      ca_cert: '{{ ca_cert_path }}'
+      name: '{{ opnsense_1_sync_port_name }}'
+      network: '{{ sync_network_name }}'
+      fixed_ips:
+      - ip_address: '{{ opnsense_1_sync_port_ip }}'
+      no_security_groups: true
+
+  - name: Create opnsense-2 sync port
+    openstack.cloud.port:
+      ca_cert: '{{ ca_cert_path }}'
+      name: '{{ opnsense_2_sync_port_name }}'
+      network: '{{ sync_network_name }}'
+      fixed_ips:
+      - ip_address: '{{ opnsense_2_sync_port_ip }}'
+      no_security_groups: true
+
+  - name: Create opnsense-1 internal port
+    openstack.cloud.port:
+      ca_cert: '{{ ca_cert_path }}'
+      name: '{{ opnsense_1_internal_port_name }}'
+      network: '{{ internal_network_name }}'
+      fixed_ips:
+      - ip_address: '{{ opnsense_1_internal_port_ip }}'
+      no_security_groups: true
+
+  - name: Create opnsense-2 internal port
+    openstack.cloud.port:
+      ca_cert: '{{ ca_cert_path }}'
+      name: '{{ opnsense_2_internal_port_name }}'
+      network: '{{ internal_network_name }}'
+      fixed_ips:
+      - ip_address: '{{ opnsense_2_internal_port_ip }}'
+      no_security_groups: true
+
+  - name: Create opnsense-1 management port
+    openstack.cloud.port:
+      ca_cert: '{{ ca_cert_path }}'
+      name: '{{ opnsense_1_mgmt_port_name }}'
+      network: '{{ mgmt_network_name }}'
+      fixed_ips:
+      - ip_address: '{{ opnsense_1_mgmt_port_ip }}'
+      no_security_groups: true
+
+  - name: Create opnsense-2 management port
+    openstack.cloud.port:
+      ca_cert: '{{ ca_cert_path }}'
+      name: '{{ opnsense_2_mgmt_port_name }}'
+      network: '{{ mgmt_network_name }}'
+      fixed_ips:
+      - ip_address: '{{ opnsense_2_mgmt_port_ip }}'
+      no_security_groups: true

@@ -1,2 +1,4 @@
 ---
+- import_playbook: networks.yml
+- import_playbook: secgroups.yml
 - import_playbook: images.yml
