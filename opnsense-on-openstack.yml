@@ -3,3 +3,4 @@
 - import_playbook: secgroups.yml
 - import_playbook: keypairs.yml
 - import_playbook: images.yml
+- import_playbook: vms.yml
