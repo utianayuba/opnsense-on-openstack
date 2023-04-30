@@ -1,0 +1,9 @@
+---
+images_dir: /home/utian
+opnsense_image_file: OPNsense-23.1-OpenSSL-nano-amd64.img
+opnsense_image_name: OPNsense-23.1-OpenSSL-nano-amd64
+opnsense_image_archive_file: OPNsense-23.1-OpenSSL-nano-amd64.img.bz2
+opnsense_image_archive_file_sha256: 74ec824288adde409074f6855cb0110b860d0b28c33fbd6a30f12473a5e97d54
+rocky_image_file: Rocky-9-GenericCloud-Base-9.1-20230215.0.x86_64.qcow2
+rocky_image_name: Rocky-9-GenericCloud-Base-9.1-20230215.0.x86_64
+rocky_image_file_sha256: 53850338cd7e918052e13fc0a34b8383675ac747e168f640cfb7f483e65eac65
