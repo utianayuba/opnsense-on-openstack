@@ -1,0 +1,69 @@
+- hosts: localhost
+  vars_files: vars.yml
+  tasks:
+
+  - name: Create allow all TCP traffic security group
+    openstack.cloud.security_group:
+      ca_cert: '{{ ca_cert_path }}'
+      name: sg-tcp
+      description: security group to allow all TCP traffic
+  
+  - name: Create allow all TCP traffic security group rule
+    openstack.cloud.security_group_rule:
+      ca_cert: '{{ ca_cert_path }}'
+      security_group: sg-tcp
+      protocol: tcp
+
+  - name: Create allow all ICMP traffic security group
+    openstack.cloud.security_group:
+      ca_cert: '{{ ca_cert_path }}'
+      name: sg-icmp
+      description: security group to allow all ICMP traffic
+  
+  - name: Create allow all ICMP traffic security group rule
+    openstack.cloud.security_group_rule:
+      ca_cert: '{{ ca_cert_path }}'
+      security_group: sg-icmp
+      protocol: icmp
+
+  - name: Create allow all SSH traffic security group
+    openstack.cloud.security_group:
+      ca_cert: '{{ ca_cert_path }}'
+      name: sg-ssh
+      description: security group to allow all SSH traffic
+  
+  - name: Create allow all SSH traffic security group rule
+    openstack.cloud.security_group_rule:
+      ca_cert: '{{ ca_cert_path }}'
+      security_group: sg-ssh
+      protocol: tcp
+      port_range_min: 22
+      port_range_max: 22
+
+  - name: Create allow all HTTP traffic security group
+    openstack.cloud.security_group:
+      ca_cert: '{{ ca_cert_path }}'
+      name: sg-http
+      description: security group to allow all HTTP traffic
+  
+  - name: Create allow all HTTP traffic security group rule
+    openstack.cloud.security_group_rule:
+      ca_cert: '{{ ca_cert_path }}'
+      security_group: sg-http
+      protocol: tcp
+      port_range_min: 80
+      port_range_max: 80
+
+  - name: Create allow all HTTPS traffic security group
+    openstack.cloud.security_group:
+      ca_cert: '{{ ca_cert_path }}'
+      name: sg-https
+      description: security group to allow all HTTPS traffic
+  
+  - name: Create allow all HTTPS traffic security group rule
+    openstack.cloud.security_group_rule:
+      ca_cert: '{{ ca_cert_path }}'
+      security_group: sg-https
+      protocol: tcp
+      port_range_min: 443
+      port_range_max: 443
