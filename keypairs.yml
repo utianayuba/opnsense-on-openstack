@@ -1,0 +1,9 @@
+- hosts: localhost
+  vars_files: vars.yml
+  tasks:
+
+  - name: Create a key pair
+    openstack.cloud.keypair:
+      ca_cert: '{{ ca_cert_path }}'
+      name: '{{ keypair_name }}'
+      public_key_file: '{{ keypair_public_key_file }}'
