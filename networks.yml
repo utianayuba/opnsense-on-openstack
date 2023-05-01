@@ -15,7 +15,6 @@
       cidr: '{{ external_subnet_cidr }}'
       dns_nameservers:
        - '{{ dns_nameserver1 }}'
-       - '{{ dns_nameserver2 }}'
 
   - name: Create sync network
     openstack.cloud.network:
@@ -43,7 +42,6 @@
       cidr: '{{ internal_subnet_cidr }}'
       dns_nameservers:
        - '{{ dns_nameserver1 }}'
-       - '{{ dns_nameserver2 }}'
       gateway_ip: '{{ internal_gateway_ip }}'
 
   - name: Create management network

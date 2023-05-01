@@ -14,8 +14,7 @@ internal_gateway_ip: 10.255.253.10
 mgmt_network_name: net-mgmt
 mgmt_subnet_name: subnet-mgmt
 mgmt_subnet_cidr: 10.255.0.0/20
-dns_nameserver1: 8.8.8.8
-dns_nameserver2: 8.8.4.4
+dns_nameserver1: 192.168.18.1
 opnsense_1_external_port_name: opnsense-1-external
 opnsense_1_external_port_ip: 10.255.254.11
 opnsense_1_sync_port_name: opnsense-1-sync
