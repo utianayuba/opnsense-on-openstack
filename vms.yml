@@ -33,6 +33,15 @@
       security_groups:
         - sg-icmp
         - sg-ssh
+      auto_ip: false
+  
+  - name: Assign floating IP to jumphost-0
+    openstack.cloud.floating_ip:
+      ca_cert: '{{ ca_cert_path }}'
+      server: jumphost-0
+      network: '{{ provider_network_name }}'
+      reuse: true
+      nat_destination: '{{ external_network_name }}'
 
   - name: Create a jumphost-1 VM
     openstack.cloud.server:
@@ -52,7 +61,6 @@
         #!/bin/sh
         ip route add default via 10.255.0.10
       auto_ip: false
-
   - name: Create an internal server VM
     openstack.cloud.server:
       ca_cert: '{{ ca_cert_path }}'
@@ -71,8 +79,4 @@
         - sg-ssh
         - sg-http
         - sg-https
-      userdata: |
-        #!/bin/sh
-        yum -y install nginx
-        systemctl enable nginx --now
       auto_ip: false

@@ -14,7 +14,7 @@
       network_name: '{{ external_network_name }}'
       cidr: '{{ external_subnet_cidr }}'
       dns_nameservers:
-       - '{{ dns_nameserver1 }}'
+        - '{{ dns_nameserver1 }}'
 
   - name: Create sync network
     openstack.cloud.network:
@@ -27,6 +27,8 @@
       name: '{{ sync_subnet_name }}'
       network_name: '{{ sync_network_name }}'
       cidr: '{{ sync_subnet_cidr }}'
+      dns_nameservers:
+        - '{{ dns_nameserver1 }}'
       no_gateway_ip: true
 
   - name: Create internal network
@@ -41,7 +43,7 @@
       network_name: '{{ internal_network_name }}'
       cidr: '{{ internal_subnet_cidr }}'
       dns_nameservers:
-       - '{{ dns_nameserver1 }}'
+        - '{{ dns_nameserver1 }}'
       gateway_ip: '{{ internal_gateway_ip }}'
 
   - name: Create management network
@@ -55,6 +57,8 @@
       name: '{{ mgmt_subnet_name }}'
       network_name: '{{ mgmt_network_name }}'
       cidr: '{{ mgmt_subnet_cidr }}'
+      dns_nameservers:
+        - '{{ dns_nameserver1 }}'
       no_gateway_ip: true
   
   - name: Create opnsense-1 external port
