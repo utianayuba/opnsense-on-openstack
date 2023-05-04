@@ -2,7 +2,20 @@
   vars_files: vars.yml
   tasks:
 
-  - name: Create an external client VM
+  - name: Register the external client VM
+    openstack.cloud.server_info:
+      ca_cert: '{{ ca_cert_path }}'
+      name: external
+    register: result_name_external
+  
+  - name: Check the existence of the external client VM
+    debug:
+     msg: 
+       - '{{ result_name_external.servers[0].name }}'
+    register: result_debug_external
+    ignore_errors: true
+
+  - name: Create the external client VM
     openstack.cloud.server:
       ca_cert: '{{ ca_cert_path }}'
       name: external
@@ -16,8 +29,22 @@
       security_groups:
         - sg-icmp
         - sg-ssh
+    when: result_debug_external is failed
 
-  - name: Create a jumphost-0 VM
+  - name: Register the jumphost-0 VM
+    openstack.cloud.server_info:
+      ca_cert: '{{ ca_cert_path }}'
+      name: jumphost-0
+    register: result_name_jumphost_0
+  
+  - name: Check the existence of the jumphost-0 client VM
+    debug:
+     msg: 
+       - '{{ result_name_jumphost_0.servers[0].name }}'
+    register: result_debug_jumphost_0
+    ignore_errors: true
+
+  - name: Create the jumphost-0 VM
     openstack.cloud.server:
       ca_cert: '{{ ca_cert_path }}'
       name: 'jumphost-0'
@@ -34,6 +61,7 @@
         - sg-icmp
         - sg-ssh
       auto_ip: false
+    when: result_debug_jumphost_0 is failed
   
   - name: Assign floating IP to jumphost-0
     openstack.cloud.floating_ip:
@@ -43,7 +71,20 @@
       reuse: true
       nat_destination: '{{ external_network_name }}'
 
-  - name: Create a jumphost-1 VM
+  - name: Register the jumphost-1 VM
+    openstack.cloud.server_info:
+      ca_cert: '{{ ca_cert_path }}'
+      name: jumphost-1
+    register: result_name_jumphost_1
+  
+  - name: Check the existence of the jumphost-1 client VM
+    debug:
+     msg: 
+       - '{{ result_name_jumphost_1.servers[0].name }}'
+    register: result_debug_jumphost_1
+    ignore_errors: true
+
+  - name: Create the jumphost-1 VM
     openstack.cloud.server:
       ca_cert: '{{ ca_cert_path }}'
       name: 'jumphost-1'
@@ -61,7 +102,22 @@
         #!/bin/sh
         ip route add default via 10.255.0.10
       auto_ip: false
-  - name: Create an internal server VM
+    when: result_debug_jumphost_1 is failed
+
+  - name: Register the internal server VM
+    openstack.cloud.server_info:
+      ca_cert: '{{ ca_cert_path }}'
+      name: internal
+    register: result_name_internal
+  
+  - name: Check the existence of the internal server VM
+    debug:
+     msg: 
+       - '{{ result_name_internal.servers[0].name }}'
+    register: result_debug_internal
+    ignore_errors: true
+
+  - name: Create the internal server VM
     openstack.cloud.server:
       ca_cert: '{{ ca_cert_path }}'
       name: 'internal'
@@ -80,3 +136,4 @@
         - sg-http
         - sg-https
       auto_ip: false
+    when: result_debug_internal is failed
