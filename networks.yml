@@ -68,7 +68,9 @@
       network: '{{ external_network_name }}'
       fixed_ips:
       - ip_address: '{{ opnsense_1_external_port_ip }}'
-      no_security_groups: true
+      security_groups:
+      - 'sg-icmp'
+      - 'sg-tcp'
 
   - name: Create opnsense-2 external port
     openstack.cloud.port:
@@ -77,7 +79,9 @@
       network: '{{ external_network_name }}'
       fixed_ips:
       - ip_address: '{{ opnsense_2_external_port_ip }}'
-      no_security_groups: true
+      security_groups:
+      - 'sg-icmp'
+      - 'sg-tcp'
 
   - name: Create opnsense-1 sync port
     openstack.cloud.port:
@@ -86,7 +90,9 @@
       network: '{{ sync_network_name }}'
       fixed_ips:
       - ip_address: '{{ opnsense_1_sync_port_ip }}'
-      no_security_groups: true
+      security_groups:
+      - 'sg-icmp'
+      - 'sg-tcp'
 
   - name: Create opnsense-2 sync port
     openstack.cloud.port:
@@ -95,7 +101,9 @@
       network: '{{ sync_network_name }}'
       fixed_ips:
       - ip_address: '{{ opnsense_2_sync_port_ip }}'
-      no_security_groups: true
+      security_groups:
+      - 'sg-icmp'
+      - 'sg-tcp'
 
   - name: Create opnsense-1 internal port
     openstack.cloud.port:
@@ -104,7 +112,9 @@
       network: '{{ internal_network_name }}'
       fixed_ips:
       - ip_address: '{{ opnsense_1_internal_port_ip }}'
-      no_security_groups: true
+      security_groups:
+      - 'sg-icmp'
+      - 'sg-tcp'
 
   - name: Create opnsense-2 internal port
     openstack.cloud.port:
@@ -113,7 +123,9 @@
       network: '{{ internal_network_name }}'
       fixed_ips:
       - ip_address: '{{ opnsense_2_internal_port_ip }}'
-      no_security_groups: true
+      security_groups:
+      - 'sg-icmp'
+      - 'sg-tcp'
 
   - name: Create opnsense-1 management port
     openstack.cloud.port:
@@ -122,7 +134,9 @@
       network: '{{ mgmt_network_name }}'
       fixed_ips:
       - ip_address: '{{ opnsense_1_mgmt_port_ip }}'
-      no_security_groups: true
+      security_groups:
+      - 'sg-icmp'
+      - 'sg-tcp'
 
   - name: Create opnsense-2 management port
     openstack.cloud.port:
@@ -131,7 +145,31 @@
       network: '{{ mgmt_network_name }}'
       fixed_ips:
       - ip_address: '{{ opnsense_2_mgmt_port_ip }}'
-      no_security_groups: true
+      security_groups:
+      - 'sg-icmp'
+      - 'sg-tcp'
+
+  - name: Create external VIP port
+    openstack.cloud.port:
+      ca_cert: '{{ ca_cert_path }}'
+      name: '{{ vip_external_port_name }}'
+      network: '{{ external_network_name }}'
+      fixed_ips:
+      - ip_address: '{{ vip_external_port_ip }}'
+      security_groups:
+      - 'sg-icmp'
+      - 'sg-tcp'
+
+  - name: Create internal VIP port
+    openstack.cloud.port:
+      ca_cert: '{{ ca_cert_path }}'
+      name: '{{ vip_internal_port_name }}'
+      network: '{{ internal_network_name }}'
+      fixed_ips:
+      - ip_address: '{{ vip_internal_port_ip }}'
+      security_groups:
+      - 'sg-icmp'
+      - 'sg-tcp'
 
   - name: Create a router
     openstack.cloud.router:

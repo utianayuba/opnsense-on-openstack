@@ -5,7 +5,7 @@
   - name: Register the external client VM
     openstack.cloud.server_info:
       ca_cert: '{{ ca_cert_path }}'
-      name: external
+      name: 'external'
     register: result_name_external
   
   - name: Check the existence of the external client VM
@@ -18,7 +18,7 @@
   - name: Create the external client VM
     openstack.cloud.server:
       ca_cert: '{{ ca_cert_path }}'
-      name: external
+      name: 'external'
       image: '{{ rocky_image_name }}'
       key_name: '{{ keypair_name }}'
       flavor: flavor-2-2-20
@@ -27,14 +27,14 @@
       volume_size: 20
       terminate_volume: true
       security_groups:
-        - sg-icmp
-        - sg-ssh
+        - 'sg-icmp'
+        - 'sg-ssh'
     when: result_debug_external is failed
 
   - name: Register the jumphost-0 VM
     openstack.cloud.server_info:
       ca_cert: '{{ ca_cert_path }}'
-      name: jumphost-0
+      name: 'jumphost-0'
     register: result_name_jumphost_0
   
   - name: Check the existence of the jumphost-0 client VM
@@ -58,15 +58,15 @@
       volume_size: 20
       terminate_volume: true
       security_groups:
-        - sg-icmp
-        - sg-ssh
+        - 'sg-icmp'
+        - 'sg-ssh'
       auto_ip: false
     when: result_debug_jumphost_0 is failed
   
   - name: Assign floating IP to jumphost-0
     openstack.cloud.floating_ip:
       ca_cert: '{{ ca_cert_path }}'
-      server: jumphost-0
+      server: 'jumphost-0'
       network: '{{ provider_network_name }}'
       reuse: true
       nat_destination: '{{ external_network_name }}'
@@ -74,7 +74,7 @@
   - name: Register the jumphost-1 VM
     openstack.cloud.server_info:
       ca_cert: '{{ ca_cert_path }}'
-      name: jumphost-1
+      name: 'jumphost-1'
     register: result_name_jumphost_1
   
   - name: Check the existence of the jumphost-1 client VM
@@ -96,8 +96,8 @@
       volume_size: 20
       terminate_volume: true
       security_groups:
-        - sg-icmp
-        - sg-ssh
+        - 'sg-icmp'
+        - 'sg-ssh'
       userdata: |
         #!/bin/sh
         ip route add default via 10.255.0.10
@@ -107,7 +107,7 @@
   - name: Register the internal server VM
     openstack.cloud.server_info:
       ca_cert: '{{ ca_cert_path }}'
-      name: internal
+      name: 'internal'
     register: result_name_internal
   
   - name: Check the existence of the internal server VM
@@ -131,9 +131,71 @@
       volume_size: 20
       terminate_volume: true
       security_groups:
-        - sg-icmp
-        - sg-ssh
+        - 'sg-icmp'
+        - 'sg-ssh'
         - sg-http
         - sg-https
       auto_ip: false
     when: result_debug_internal is failed
+
+  - name: Register the opnsense-1 VM
+    openstack.cloud.server_info:
+      ca_cert: '{{ ca_cert_path }}'
+      name: 'opnsense-1'
+    register: result_name_opnsense_1
+  
+  - name: Check the existence of the opnsense-1 VM
+    debug:
+     msg: 
+       - '{{ result_name_opnsense_1.servers[0].name }}'
+    register: result_debug_opnsense_1
+    ignore_errors: true
+
+  - name: Create the opnsense-1 VM
+    openstack.cloud.server:
+      ca_cert: '{{ ca_cert_path }}'
+      name: 'opnsense-1'
+      image: '{{ opnsense_image_name }}'
+      key_name: '{{ keypair_name }}'
+      flavor: flavor-8-8-80
+      nics:
+        - port-name: '{{ opnsense_1_external_port_name }}'
+        - port-name: '{{ opnsense_1_mgmt_port_name }}'
+        - port-name: '{{ opnsense_1_internal_port_name }}'
+        - port-name: '{{ opnsense_1_sync_port_name }}'
+      boot_from_volume: true
+      volume_size: 80
+      terminate_volume: true
+      auto_ip: false
+    when: result_debug_opnsense_1 is failed
+
+  - name: Register the opnsense-2 VM
+    openstack.cloud.server_info:
+      ca_cert: '{{ ca_cert_path }}'
+      name: 'opnsense-2'
+    register: result_name_opnsense_2
+  
+  - name: Check the existence of the opnsense-2 VM
+    debug:
+     msg: 
+       - '{{ result_name_opnsense_2.servers[0].name }}'
+    register: result_debug_opnsense_2
+    ignore_errors: true
+
+  - name: Create the opnsense-2 VM
+    openstack.cloud.server:
+      ca_cert: '{{ ca_cert_path }}'
+      name: 'opnsense-2'
+      image: '{{ opnsense_image_name }}'
+      key_name: '{{ keypair_name }}'
+      flavor: flavor-8-8-80
+      nics:
+        - port-name: '{{ opnsense_2_external_port_name }}'
+        - port-name: '{{ opnsense_2_mgmt_port_name }}'
+        - port-name: '{{ opnsense_2_internal_port_name }}'
+        - port-name: '{{ opnsense_2_sync_port_name }}'
+      boot_from_volume: true
+      volume_size: 80
+      terminate_volume: true
+      auto_ip: false
+    when: result_debug_opnsense_2 is failed

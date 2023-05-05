@@ -31,7 +31,7 @@
       ca_cert: '{{ ca_cert_path }}'
       name: '{{ opnsense_image_name }}'
       filename: '{{ images_dir }}/{{ opnsense_image_file }}'
-      disk_format: qcow2
+      disk_format: raw
 
   - name: Download Rocky image
     ansible.builtin.get_url:

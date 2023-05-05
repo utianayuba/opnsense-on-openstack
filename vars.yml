@@ -31,6 +31,10 @@ opnsense_2_internal_port_name: opnsense-2-internal
 opnsense_2_internal_port_ip: 10.255.253.12
 opnsense_2_mgmt_port_name: opnsense-2-mgmt
 opnsense_2_mgmt_port_ip: 10.255.0.12
+vip_external_port_name: external-vip
+vip_external_port_ip: 10.255.254.10
+vip_internal_port_name: internal-vip
+vip_internal_port_ip: 10.255.253.10
 router_name: router-0
 keypair_name: key-utian
 keypair_public_key_file: /home/utian/.ssh/id_rsa.pub
