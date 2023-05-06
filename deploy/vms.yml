@@ -99,8 +99,12 @@
         - 'sg-icmp'
         - 'sg-ssh'
       userdata: |
-        #!/bin/sh
-        ip route add default via '{{ management_gateway_ip }}'
+        #!/bin/bash
+        tee -a /etc/rc.d/rc.local <<EOF
+        ip route add default via {{ management_gateway_ip }}
+        EOF
+        chmod +x /etc/rc.d/rc.local
+        /etc/rc.d/rc.local
       auto_ip: false
     when: result_debug_jumphost_1 is failed
 
