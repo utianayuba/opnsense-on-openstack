@@ -10,8 +10,8 @@
   
   - name: Check the existence of the external client VM
     debug:
-     msg: 
-       - '{{ result_name_external.servers[0].name }}'
+      msg: 
+        - '{{ result_name_external.servers[0].name }}'
     register: result_debug_external
     ignore_errors: true
 
@@ -39,8 +39,8 @@
   
   - name: Check the existence of the jumphost-0 client VM
     debug:
-     msg: 
-       - '{{ result_name_jumphost_0.servers[0].name }}'
+      msg: 
+        - '{{ result_name_jumphost_0.servers[0].name }}'
     register: result_debug_jumphost_0
     ignore_errors: true
 
@@ -79,8 +79,8 @@
   
   - name: Check the existence of the jumphost-1 client VM
     debug:
-     msg: 
-       - '{{ result_name_jumphost_1.servers[0].name }}'
+      msg: 
+        - '{{ result_name_jumphost_1.servers[0].name }}'
     register: result_debug_jumphost_1
     ignore_errors: true
 
@@ -112,8 +112,8 @@
   
   - name: Check the existence of the internal server VM
     debug:
-     msg: 
-       - '{{ result_name_internal.servers[0].name }}'
+      msg: 
+        - '{{ result_name_internal.servers[0].name }}'
     register: result_debug_internal
     ignore_errors: true
 
@@ -146,8 +146,8 @@
   
   - name: Check the existence of the opnsense-1 VM
     debug:
-     msg: 
-       - '{{ result_name_opnsense_1.servers[0].name }}'
+      msg: 
+        - '{{ result_name_opnsense_1.servers[0].name }}'
     register: result_debug_opnsense_1
     ignore_errors: true
 
@@ -177,8 +177,8 @@
   
   - name: Check the existence of the opnsense-2 VM
     debug:
-     msg: 
-       - '{{ result_name_opnsense_2.servers[0].name }}'
+      msg: 
+        - '{{ result_name_opnsense_2.servers[0].name }}'
     register: result_debug_opnsense_2
     ignore_errors: true
 
