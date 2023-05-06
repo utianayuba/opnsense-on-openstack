@@ -49,14 +49,14 @@
   - name: Create management network
     openstack.cloud.network:
       ca_cert: '{{ ca_cert_path }}'
-      name: '{{ mgmt_network_name }}'
+      name: '{{ management_network_name }}'
   
   - name: Create management subnet
     openstack.cloud.subnet:
       ca_cert: '{{ ca_cert_path }}'
-      name: '{{ mgmt_subnet_name }}'
-      network_name: '{{ mgmt_network_name }}'
-      cidr: '{{ mgmt_subnet_cidr }}'
+      name: '{{ management_subnet_name }}'
+      network_name: '{{ management_network_name }}'
+      cidr: '{{ management_subnet_cidr }}'
       dns_nameservers:
         - '{{ dns_nameserver1 }}'
       no_gateway_ip: true
@@ -138,10 +138,10 @@
   - name: Create opnsense-1 management port
     openstack.cloud.port:
       ca_cert: '{{ ca_cert_path }}'
-      name: '{{ opnsense_1_mgmt_port_name }}'
-      network: '{{ mgmt_network_name }}'
+      name: '{{ opnsense_1_management_port_name }}'
+      network: '{{ management_network_name }}'
       fixed_ips:
-      - ip_address: '{{ opnsense_1_mgmt_port_ip }}'
+      - ip_address: '{{ opnsense_1_management_port_ip }}'
       security_groups:
       - 'sg-icmp'
       - 'sg-tcp'
@@ -149,15 +149,15 @@
   - name: Create opnsense-2 management port
     openstack.cloud.port:
       ca_cert: '{{ ca_cert_path }}'
-      name: '{{ opnsense_2_mgmt_port_name }}'
-      network: '{{ mgmt_network_name }}'
+      name: '{{ opnsense_2_management_port_name }}'
+      network: '{{ management_network_name }}'
       fixed_ips:
-      - ip_address: '{{ opnsense_2_mgmt_port_ip }}'
+      - ip_address: '{{ opnsense_2_management_port_ip }}'
       security_groups:
       - 'sg-icmp'
       - 'sg-tcp'
 
-  - name: Create external VIP port
+  - name: Create OPNsense external VIP port
     openstack.cloud.port:
       ca_cert: '{{ ca_cert_path }}'
       name: '{{ opnsense_external_vip_port_name }}'
@@ -168,13 +168,24 @@
       - 'sg-icmp'
       - 'sg-tcp'
 
-  - name: Create internal VIP port
+  - name: Create OPNsense internal VIP port
     openstack.cloud.port:
       ca_cert: '{{ ca_cert_path }}'
       name: '{{ opnsense_internal_vip_port_name }}'
       network: '{{ internal_network_name }}'
       fixed_ips:
       - ip_address: '{{ opnsense_internal_vip_port_ip }}'
+      security_groups:
+      - 'sg-icmp'
+      - 'sg-tcp'
+
+  - name: Create OPNsense management VIP port
+    openstack.cloud.port:
+      ca_cert: '{{ ca_cert_path }}'
+      name: '{{ opnsense_management_vip_port_name }}'
+      network: '{{ management_network_name }}'
+      fixed_ips:
+      - ip_address: '{{ opnsense_management_vip_port_ip }}'
       security_groups:
       - 'sg-icmp'
       - 'sg-tcp'
