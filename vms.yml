@@ -100,7 +100,7 @@
         - 'sg-ssh'
       userdata: |
         #!/bin/sh
-        ip route add default via 10.255.0.10
+        ip route add default via '{{ management_gateway_ip }}'
       auto_ip: false
     when: result_debug_jumphost_1 is failed
 
