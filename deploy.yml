@@ -1,0 +1,6 @@
+---
+- import_playbook: deploy/networks.yml
+- import_playbook: deploy/secgroups.yml
+- import_playbook: deploy/keypairs.yml
+- import_playbook: deploy/images.yml
+- import_playbook: deploy/vms.yml
