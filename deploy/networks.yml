@@ -145,6 +145,8 @@
       security_groups:
       - 'sg-icmp'
       - 'sg-tcp'
+      allowed_address_pairs:
+      - ip_address: '{{ opnsense_management_vip_port_ip }}'
 
   - name: Create opnsense-2 management port
     openstack.cloud.port:
@@ -156,6 +158,8 @@
       security_groups:
       - 'sg-icmp'
       - 'sg-tcp'
+      allowed_address_pairs:
+      - ip_address: '{{ opnsense_management_vip_port_ip }}'
 
   - name: Create OPNsense external VIP port
     openstack.cloud.port:
