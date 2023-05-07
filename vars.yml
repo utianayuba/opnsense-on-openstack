@@ -4,16 +4,24 @@ provider_network_name: net-provider
 external_network_name: net-ext
 external_subnet_name: subnet-ext
 external_subnet_cidr: 10.255.254.0/24
+external_subnet_start: 10.255.254.20
+external_subnet_end: 10.255.254.249
 sync_network_name: net-sync
 sync_subnet_name: subnet-sync
 sync_subnet_cidr: 10.255.255.0/24
+sync_subnet_start: 10.255.255.20
+sync_subnet_end: 10.255.255.249
 internal_network_name: net-int-0
 internal_subnet_name: subnet-int-0
 internal_subnet_cidr: 10.255.253.0/24
+internal_subnet_start: 10.255.253.20
+internal_subnet_end: 10.255.253.249
 internal_gateway_ip: '{{ opnsense_internal_vip_port_ip }}'
 management_network_name: net-mgmt
 management_subnet_name: subnet-mgmt
 management_subnet_cidr: 10.255.0.0/20
+management_subnet_start: 10.255.0.20
+management_subnet_end: 10.255.15.249
 management_gateway_ip: '{{ opnsense_management_vip_port_ip }}'
 dns_nameserver1: 192.168.18.1
 opnsense_1_external_port_name: opnsense-1-ext
